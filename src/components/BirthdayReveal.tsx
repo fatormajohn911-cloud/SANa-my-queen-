@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Heart, Sparkles, Flame, RotateCcw, Gift, X, Maximize2, Film } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { romanticAudio } from '../utils/romanticAudio';
+import { getAssetUrl } from '../utils/assetUrl';
 
 interface BirthdayRevealProps {
   portraitSrc: string;
@@ -149,7 +150,7 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ portraitSrc }) =
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   if (!target.src.includes('WA0054')) {
-                    target.src = './images/IMG-20261011-WA0054.jpg';
+                    target.src = getAssetUrl('images/IMG-20261011-WA0054.jpg');
                   }
                 }}
               />

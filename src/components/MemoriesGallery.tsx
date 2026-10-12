@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Heart, Sparkles, Maximize2, X, Video, Play, Volume2, VolumeX, Upload, Film, ChevronLeft, ChevronRight, Clapperboard } from 'lucide-react';
 import { romanticAudio } from '../utils/romanticAudio';
+import { getAssetUrl } from '../utils/assetUrl';
 import confetti from 'canvas-confetti';
 
 export interface MemoryItem {
@@ -53,7 +54,7 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
       reelNumber: 'PORTRAIT I',
       title: "Sana's Radiant Smile",
       subtitle: 'Her Natural Warmth & Light',
-      imageSrc: customPhotos['wa-0054'] || './images/IMG-20261011-WA0054.jpg',
+      imageSrc: customPhotos['wa-0054'] || getAssetUrl('images/IMG-20261011-WA0054.jpg'),
       tag: 'Cherished Portrait',
       filmFormat: 'ROYAL CINEMATIC',
       description:
@@ -66,7 +67,7 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
       reelNumber: 'PORTRAIT II',
       title: 'The Eyes That Hold My World',
       subtitle: 'Pure Modesty & Divine Noor',
-      imageSrc: customPhotos['wa-0050'] || './images/IMG-20261011-WA0050.jpg',
+      imageSrc: customPhotos['wa-0050'] || getAssetUrl('images/IMG-20261011-WA0050.jpg'),
       tag: 'Sacred Noor',
       filmFormat: 'GOLDEN GLOW',
       description:
@@ -79,7 +80,7 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
       reelNumber: 'PORTRAIT III',
       title: 'Grace & Mehndi Dreams',
       subtitle: 'Elegance In Every Detail',
-      imageSrc: customPhotos['wa-0049'] || './images/IMG-20261011-WA0049.jpg',
+      imageSrc: customPhotos['wa-0049'] || getAssetUrl('images/IMG-20261011-WA0049.jpg'),
       tag: 'Elegance & Faith',
       filmFormat: 'PURE ELEGANCE',
       description:
@@ -198,7 +199,7 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   if (!target.src.includes('WA0054')) {
-                    target.src = './images/IMG-20261011-WA0054.jpg';
+                    target.src = getAssetUrl('images/IMG-20261011-WA0054.jpg');
                   }
                 }}
               />
@@ -345,7 +346,7 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
                 <div className="relative w-full h-full flex flex-col items-center justify-center p-6 text-center">
                   <div className="relative w-full h-full rounded-xl overflow-hidden mb-3">
                     <img
-                      src={customPhotos['wa-0049'] || './images/IMG-20261011-WA0049.jpg'}
+                      src={customPhotos['wa-0049'] || getAssetUrl('images/IMG-20261011-WA0049.jpg')}
                       alt="Sana Video Poster"
                       className="w-full h-full object-cover"
                     />

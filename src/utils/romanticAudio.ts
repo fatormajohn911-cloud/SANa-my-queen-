@@ -13,6 +13,8 @@
  * - Plays continuously across all sections without restarting on scroll
  */
 
+import { getAssetUrl } from './assetUrl';
+
 export type AudioPhase = 'idle' | 'track1' | 'intermission' | 'track2';
 
 export interface AudioState {
@@ -39,10 +41,12 @@ class RomanticAudioEngine {
   private track1Loaded = false;
   private track1Title = 'Original Happy Birthday Song 🎂';
   private track1Paths = [
+    getAssetUrl('audio/birthday-song.mp3'),
+    getAssetUrl('audio/happy-birthday.mp3'),
+    getAssetUrl('audio/birthday.mp3'),
+    getAssetUrl('audio/track1.mp3'),
     './audio/birthday-song.mp3',
     './audio/happy-birthday.mp3',
-    './audio/birthday.mp3',
-    './audio/track1.mp3',
   ];
 
   // Intermission (1 full minute)
@@ -54,12 +58,14 @@ class RomanticAudioEngine {
   private track2Loaded = false;
   private track2Title = 'Johnny Abdullah\'s Song For Sana ❤️';
   private track2Paths = [
+    getAssetUrl('audio/romantic-song.mp3'),
+    getAssetUrl('audio/song.mp3'),
+    getAssetUrl('audio/background-song.mp3'),
+    getAssetUrl('audio/sana-birthday.mp3'),
+    getAssetUrl('audio/music.mp3'),
+    getAssetUrl('audio/track2.mp3'),
     './audio/romantic-song.mp3',
     './audio/song.mp3',
-    './audio/background-song.mp3',
-    './audio/sana-birthday.mp3',
-    './audio/music.mp3',
-    './audio/track2.mp3',
   ];
 
   private listeners: Set<AudioStateListener> = new Set();

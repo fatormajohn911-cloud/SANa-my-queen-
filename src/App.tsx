@@ -15,6 +15,7 @@ import { MemoriesGallery } from './components/MemoriesGallery';
 import { FinalSurpriseModal } from './components/FinalSurpriseModal';
 import { ReplayControl } from './components/ReplayControl';
 import { CinematicScene } from './components/CinematicScene';
+import { getAssetUrl } from './utils/assetUrl';
 
 export default function App() {
   const [isRevealed, setIsRevealed] = useState<boolean>(false);
@@ -31,9 +32,9 @@ export default function App() {
       // fallback
     }
     return {
-      'wa-0054': './images/IMG-20261011-WA0054.jpg',
-      'wa-0050': './images/IMG-20261011-WA0050.jpg',
-      'wa-0049': './images/IMG-20261011-WA0049.jpg',
+      'wa-0054': getAssetUrl('images/IMG-20261011-WA0054.jpg'),
+      'wa-0050': getAssetUrl('images/IMG-20261011-WA0050.jpg'),
+      'wa-0049': getAssetUrl('images/IMG-20261011-WA0049.jpg'),
     };
   });
 
@@ -82,9 +83,9 @@ export default function App() {
       // ignore
     }
     setCustomPhotos({
-      'wa-0054': './images/IMG-20261011-WA0054.jpg',
-      'wa-0050': './images/IMG-20261011-WA0050.jpg',
-      'wa-0049': './images/IMG-20261011-WA0049.jpg',
+      'wa-0054': getAssetUrl('images/IMG-20261011-WA0054.jpg'),
+      'wa-0050': getAssetUrl('images/IMG-20261011-WA0050.jpg'),
+      'wa-0049': getAssetUrl('images/IMG-20261011-WA0049.jpg'),
     });
   };
 
@@ -201,7 +202,7 @@ export default function App() {
           sceneTitle="THE QUEEN'S CELEBRATION"
         >
           <BirthdayReveal
-            portraitSrc={customPhotos['wa-0054'] || './images/IMG-20261011-WA0054.jpg'}
+            portraitSrc={customPhotos['wa-0054'] || getAssetUrl('images/IMG-20261011-WA0054.jpg')}
           />
         </CinematicScene>
 
