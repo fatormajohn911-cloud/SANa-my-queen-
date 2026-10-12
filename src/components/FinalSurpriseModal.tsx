@@ -7,6 +7,17 @@ export const FinalSurpriseModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [flowering, setFlowering] = useState<boolean>(false);
 
+  // Lock background scroll when surprise modal is open
+  React.useEffect(() => {
+    if (isOpen) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [isOpen]);
+
   const promises = [
     'I promise to love you unconditionally on easy days and twice as fiercely on difficult days.',
     'I promise to mention your name in my sincere du\'as before I even pray for myself.',

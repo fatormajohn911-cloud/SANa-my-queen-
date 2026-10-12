@@ -36,15 +36,26 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
     'video-clip': 320,
   });
 
+  // Lock document scroll so background page cannot scroll underneath active modal/image view
+  useEffect(() => {
+    if (selectedMemoryIndex !== null || showVideoModal) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [selectedMemoryIndex, showVideoModal]);
+
   const memories: MemoryItem[] = [
     {
       id: 'wa-0054',
-      reelNumber: 'SCENE 01',
+      reelNumber: 'PORTRAIT I',
       title: "Sana's Radiant Smile",
       subtitle: 'Her Natural Warmth & Light',
       imageSrc: customPhotos['wa-0054'] || './images/IMG-20261011-WA0054.jpg',
       tag: 'Cherished Portrait',
-      filmFormat: '35MM PANAVISION',
+      filmFormat: 'ROYAL CINEMATIC',
       description:
         'The moment I see your smile, every worry in my world melts away. Your natural beauty, your warmth, and the gentle joy in your eyes are my greatest peace.',
       quote: '“Her smile is my sunrise across seven thousand kilometers.”',
@@ -52,12 +63,12 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
     },
     {
       id: 'wa-0050',
-      reelNumber: 'SCENE 02',
+      reelNumber: 'PORTRAIT II',
       title: 'The Eyes That Hold My World',
       subtitle: 'Pure Modesty & Divine Noor',
       imageSrc: customPhotos['wa-0050'] || './images/IMG-20261011-WA0050.jpg',
       tag: 'Sacred Noor',
-      filmFormat: '70MM ROYAL CINEMA',
+      filmFormat: 'GOLDEN GLOW',
       description:
         'Your eyes carry a depth that reaches straight to my soul. In your modesty and grace, you are more magnificent than all the stars in the night sky.',
       quote: '“In her eyes, I found the sanctuary I spent a lifetime praying for.”',
@@ -65,12 +76,12 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
     },
     {
       id: 'wa-0049',
-      reelNumber: 'SCENE 03',
+      reelNumber: 'PORTRAIT III',
       title: 'Grace & Mehndi Dreams',
       subtitle: 'Elegance In Every Detail',
       imageSrc: customPhotos['wa-0049'] || './images/IMG-20261011-WA0049.jpg',
       tag: 'Elegance & Faith',
-      filmFormat: '24 FPS MASTER REEL',
+      filmFormat: 'PURE ELEGANCE',
       description:
         'From the henna designs on your delicate hands to the gentle way you carry yourself with poise and sweetness, you are my dream come true.',
       quote: '“Every line of mehndi speaks of a promise carved into eternity.”',
@@ -167,13 +178,13 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
           >
             {/* Cinematic Image Frame with Optics */}
             <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-black/80 border border-amber-400/30 mb-4 shadow-inner">
-              {/* Top Film Slate Bar */}
-              <div className="absolute top-0 inset-x-0 z-20 px-3 py-1.5 bg-black/80 backdrop-blur-md border-b border-amber-400/25 flex items-center justify-between text-[10px] font-mono tracking-wider text-amber-200">
-                <span className="flex items-center gap-1.5">
-                  <Film className="w-3 h-3 text-pink-400" />
+              {/* Top Romantic Frame Accent */}
+              <div className="absolute top-0 inset-x-0 z-20 px-3 py-1.5 bg-black/60 backdrop-blur-md border-b border-amber-400/20 flex items-center justify-between text-[11px] text-amber-200">
+                <span className="flex items-center gap-1.5 font-serif font-medium">
+                  <Sparkles className="w-3 h-3 text-pink-400" />
                   <span>{item.reelNumber}</span>
                 </span>
-                <span className="text-pink-300 font-semibold text-[9px] uppercase tracking-wider">
+                <span className="text-pink-300 font-script text-xs">
                   {item.filmFormat}
                 </span>
               </div>
@@ -352,20 +363,9 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
             </div>
 
             <div className="mt-4 flex items-center justify-between text-xs text-slate-300">
-              <button
-                onClick={() => videoInputRef.current?.click()}
-                className="px-3 py-1.5 rounded-lg bg-pink-950/60 hover:bg-pink-900/60 border border-pink-500/30 text-pink-200 flex items-center gap-1.5 min-h-[36px]"
-              >
-                <Upload className="w-3.5 h-3.5" />
-                <span>Upload Original Video File (MP4)</span>
-              </button>
-              <input
-                ref={videoInputRef}
-                type="file"
-                accept="video/*"
-                onChange={handleVideoUpload}
-                className="hidden"
-              />
+              <span className="text-[11px] text-pink-300/80 italic">
+                From Johnny Abdullah's private vault for Sana ❤️
+              </span>
 
               {customVideoUrl && (
                 <button
@@ -404,14 +404,14 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
               <X className="w-5 h-5" />
             </button>
 
-            {/* Top Reel Navigation Bar */}
-            <div className="flex items-center justify-between pr-12 pb-3 border-b border-white/10 text-xs font-mono text-amber-300">
+            {/* Top Navigation Bar */}
+            <div className="flex items-center justify-between pr-12 pb-3 border-b border-white/10 text-xs font-serif text-amber-300">
               <div className="flex items-center gap-2">
-                <Film className="w-4 h-4 text-pink-400" />
-                <span>THEATER SCREENING • {selectedMemory.reelNumber}</span>
+                <Sparkles className="w-4 h-4 text-pink-400" />
+                <span className="tracking-wide">THE ROYAL SUITE • {selectedMemory.reelNumber}</span>
               </div>
-              <div className="text-[11px] text-pink-300/80">
-                SCENE {(selectedMemoryIndex ?? 0) + 1} OF {memories.length}
+              <div className="text-xs text-pink-300/90 font-sans font-medium">
+                PHOTO {(selectedMemoryIndex ?? 0) + 1} OF {memories.length}
               </div>
             </div>
 

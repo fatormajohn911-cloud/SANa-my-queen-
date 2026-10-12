@@ -14,6 +14,17 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ portraitSrc }) =
   const [showSurpriseModal, setShowSurpriseModal] = useState<boolean>(false);
   const [isCinematicViewOpen, setIsCinematicViewOpen] = useState<boolean>(false);
 
+  // Lock background scrolling when modal is open so other content doesn't scroll underneath
+  React.useEffect(() => {
+    if (showSurpriseModal || isCinematicViewOpen) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [showSurpriseModal, isCinematicViewOpen]);
+
   const allOut = candlesLit.every((c) => !c);
 
   const triggerCelebration = () => {
@@ -118,14 +129,14 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ portraitSrc }) =
             <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-pink-500 via-amber-400 to-purple-600 opacity-60 blur-md group-hover:opacity-95 transition-opacity duration-700" />
 
             <div className="relative overflow-hidden rounded-2xl bg-[#08040a] aspect-[4/5] w-full max-w-[340px] sm:max-w-[380px] border border-amber-400/50 shadow-2xl">
-              {/* Top Film Reel Slate */}
-              <div className="absolute top-0 inset-x-0 z-20 px-3.5 py-1.5 bg-black/75 backdrop-blur-md border-b border-amber-400/30 flex items-center justify-between text-[10px] font-mono tracking-wider text-amber-200">
-                <span className="flex items-center gap-1.5">
-                  <Film className="w-3 h-3 text-pink-400" />
-                  <span>35MM CINEMA STILL</span>
+              {/* Top Romantic Frame Accent */}
+              <div className="absolute top-0 inset-x-0 z-20 px-3.5 py-2 bg-black/60 backdrop-blur-md border-b border-amber-400/20 flex items-center justify-between text-xs text-amber-200">
+                <span className="flex items-center gap-1.5 font-serif">
+                  <Sparkles className="w-3.5 h-3.5 text-pink-400" />
+                  <span className="tracking-wide">Dearest Sana</span>
                 </span>
-                <span className="text-pink-300 font-bold uppercase tracking-widest text-[9px]">
-                  24 FPS • QUEEN SANA
+                <span className="text-pink-300 font-script text-sm">
+                  Queen of My Heart
                 </span>
               </div>
 
@@ -401,9 +412,9 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ portraitSrc }) =
               <X className="w-5 h-5" />
             </button>
 
-            <div className="flex items-center gap-2 mb-3 text-xs font-mono text-amber-300">
-              <Film className="w-4 h-4 text-pink-400" />
-              <span>THE ROYAL THEATER • SCENE 01: SANA'S PORTRAIT</span>
+            <div className="flex items-center gap-2 mb-3 text-sm font-serif text-amber-300">
+              <Sparkles className="w-4 h-4 text-pink-400" />
+              <span className="tracking-wide">THE ROYAL SUITE • A PORTRAIT OF SANA</span>
             </div>
 
             <div className="relative aspect-[4/5] max-h-[62vh] w-full max-w-[420px] rounded-2xl overflow-hidden border-2 border-amber-400/50 shadow-2xl mx-auto my-2 group">
