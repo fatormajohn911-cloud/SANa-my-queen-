@@ -65,7 +65,7 @@ export const FinalSurpriseModal: React.FC = () => {
           The Final Birthday Surprise
         </h2>
         <p className="font-script text-2xl sm:text-3xl text-pink-300 mb-6">
-          One more secret from Johnny's heart to yours ❤️
+          One more secret from Johnny Abdullah's heart to yours ❤️
         </p>
         <p className="text-slate-300 text-sm sm:text-base max-w-md mx-auto mb-8 font-light leading-relaxed">
           Before this day ends, there is one last vow I need to leave engraved upon your heart forever.
@@ -77,7 +77,7 @@ export const FinalSurpriseModal: React.FC = () => {
           className="group relative px-8 sm:px-10 py-4.5 rounded-full bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 text-white font-semibold text-base sm:text-lg shadow-[0_0_35px_rgba(255,45,117,0.6)] hover:shadow-[0_0_55px_rgba(255,45,117,0.9)] active:scale-95 transition-all duration-300 cursor-pointer min-h-[48px] flex items-center gap-3"
         >
           <Sparkles className="w-5 h-5 text-amber-200 group-hover:rotate-45 transition-transform" />
-          <span>Reveal Johnny's Final Surprise 💝</span>
+          <span>Reveal Johnny Abdullah's Final Surprise 💝</span>
           <Heart className="w-5 h-5 fill-white text-white animate-heartbeat" />
         </button>
       </div>
@@ -140,7 +140,7 @@ export const FinalSurpriseModal: React.FC = () => {
               <div className="flex items-center justify-between">
                 <h4 className="text-xs uppercase tracking-widest font-semibold text-amber-300 flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-amber-300" />
-                  <span>Johnny's 6 Unbreakable Promises To Sana</span>
+                  <span>Johnny Abdullah's 6 Unbreakable Promises To Sana</span>
                 </h4>
                 <button
                   onClick={handleAnimateFlowers}
@@ -166,7 +166,7 @@ export const FinalSurpriseModal: React.FC = () => {
 
             <div className="text-center pt-4 border-t border-pink-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
               <span className="font-script text-2xl text-pink-300">
-                Forever & Always, Johnny ❤️
+                Forever & Always, Johnny Abdullah (Abdullah) ❤️
               </span>
 
               <button

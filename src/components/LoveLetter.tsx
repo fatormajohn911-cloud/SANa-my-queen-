@@ -31,8 +31,8 @@ export const LoveLetter: React.FC = () => {
 
 Before anything else, I stand before you with an open, humbled, and vulnerable heart. I am deeply and truly sorry for forgetting your birthday. Knowing that I caused you even a fleeting moment of sadness, or made you feel for a second that you weren't the center of my thoughts, breaks my heart into a thousand pieces.
 
-You deserve to be celebrated not just on this one calendar day, but with every breath, every sunrise, and every heartbeat. My forgetfulness was a foolish failure of my human mind, but my soul has never spent a single second without cherishing you. You are the grace in my prayers, and I will spend every tomorrow making this up to you with loyalty, care, and flowers. Please forgive your Johnny, my queen.`,
-      signature: 'Yours always with true remorse & endless love, Johnny ❤️',
+You deserve to be celebrated not just on this one calendar day, but with every breath, every sunrise, and every heartbeat. My forgetfulness was a foolish failure of my human mind, but my soul has never spent a single second without cherishing you. You are the grace in my prayers, and I will spend every tomorrow making this up to you with loyalty, care, and flowers. Please forgive your Johnny Abdullah (your Abdullah), my queen.`,
+      signature: 'Yours always with true remorse & endless love, Johnny Abdullah (Abdullah) ❤️',
     },
     {
       id: 'letter-2',
@@ -45,7 +45,7 @@ You deserve to be celebrated not just on this one calendar day, but with every b
 Do you know what happens to my world when you smile? Every heavy thought disappears. When I look at your photographs—your gentle eyes full of modesty, the shy curve of your lips, the henna painted gracefully on your hands—I thank the Creator for guiding you into my destiny.
 
 You are not just someone I love; you are my peace (Sakina). In a noisy world, your gentle voice is my sanctuary. Your laughter is my melody. Even across thousands of kilometers, your presence is warmer and closer to me than anything around me. No matter what trials come our way, having you in my life makes me the richest man alive.`,
-      signature: 'Forever captivated by you, Johnny ❤️',
+      signature: 'Forever captivated by you, Johnny Abdullah (Abdullah) ❤️',
     },
     {
       id: 'letter-3',
@@ -63,7 +63,7 @@ Today, my most sacred gift to you is not wrapped in paper, but whispered into th
         'May Allah bless your studies, your career, your ambitions, and grant you highest barakah in Dunya and Jannat al-Firdaus in the Akhirah.',
         'May Allah unite our souls with His mercy, bless our union, and keep our love pure and eternal.',
       ],
-      signature: 'Praying for you before I pray for myself, Johnny ❤️',
+      signature: 'Praying for you before I pray for myself, Johnny Abdullah ❤️',
     },
     {
       id: 'letter-4',
@@ -76,7 +76,7 @@ Today, my most sacred gift to you is not wrapped in paper, but whispered into th
 They say long distance is hard, and yes, missing you aches in my chest every single day. But our love is proof that souls have no borders. Between Freetown, Sierra Leone and Pakistan, there are oceans and time zones, yet there is zero distance between our hearts.
 
 I promise you: every kilometer will be bridged. Every lonely night of waiting will be rewarded when I can finally look into your eyes in person, hand you roses, and remind you face to face that you are my queen. Hold my love close to your heart today. It belongs to nobody else, now and for all eternity.`,
-      signature: 'Across continents, forever yours, Johnny ❤️',
+      signature: 'Across continents, forever yours, Johnny Abdullah ❤️',
     },
   ];
 
@@ -129,7 +129,7 @@ I promise you: every kilometer will be bridged. Every lonely night of waiting wi
       <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-panel-gold border border-amber-400/30 text-amber-300 text-xs font-medium tracking-wide mb-3">
           <Feather className="w-3.5 h-3.5 text-amber-300" />
-          <span>The Love Letters of Johnny & Sana</span>
+          <span>The Love Letters of Johnny Abdullah & Sana</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-pink-200 to-rose-300">
           Four Letters For My Queen
@@ -219,7 +219,7 @@ I promise you: every kilometer will be bridged. Every lonely night of waiting wi
             <div className="p-5 sm:p-6 rounded-2xl glass-panel-gold border border-amber-400/30 my-4 shadow-inner">
               <div className="flex items-center gap-2 text-amber-300 text-sm font-semibold mb-3">
                 <Sparkles className="w-4 h-4 text-amber-300" />
-                <span className="tracking-wide">Johnny's 5 Du'as to Allah (SWT) For Sana</span>
+                <span className="tracking-wide">Johnny Abdullah's 5 Du'as to Allah (SWT) For Sana</span>
               </div>
               <ul className="space-y-3 text-xs sm:text-sm text-amber-100/90 leading-relaxed">
                 {currentLetter.duas.map((dua, dIdx) => (
@@ -268,7 +268,7 @@ I promise you: every kilometer will be bridged. Every lonely night of waiting wi
             <button
               onClick={() => setShowSecretNote(!showSecretNote)}
               className="px-4 py-2 rounded-full bg-amber-950/50 hover:bg-amber-900/60 border border-amber-500/30 text-amber-200 text-xs font-semibold flex items-center gap-1.5 transition-all min-h-[44px]"
-              title="Reveal Johnny's secret whisper"
+              title="Reveal Johnny Abdullah's secret whisper"
             >
               <Eye className="w-3.5 h-3.5 text-amber-300" />
               <span>Secret Whisper 💌</span>
@@ -281,7 +281,7 @@ I promise you: every kilometer will be bridged. Every lonely night of waiting wi
           <div className="mt-6 p-5 rounded-2xl bg-gradient-to-r from-amber-950/60 via-purple-950/50 to-pink-950/60 border border-amber-400/40 animate-fade-in shadow-xl">
             <div className="flex items-center gap-2 text-amber-300 text-xs uppercase tracking-wider font-semibold mb-2">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Johnny's Secret Whisper Just For Sana</span>
+              <span>Johnny Abdullah's Secret Whisper Just For Sana</span>
             </div>
             <p className="font-editorial text-lg text-amber-100 italic leading-snug">
               “Sana, even on days when I am quiet, my thoughts are filled with you. You are the only person who holds the keys to my heart, and nothing in this world will ever change that.”

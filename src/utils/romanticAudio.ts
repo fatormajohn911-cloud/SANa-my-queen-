@@ -1,13 +1,19 @@
 /**
- * Enhanced Romantic Audio Engine
- * 1. Plays Happy Birthday piano intro first on play.
- * 2. When the intro finishes, waits 1 full minute (60s intermission).
- * 3. Stops any remaining intro audio and starts the real background song uploaded to GitHub.
- * 4. Never plays both songs simultaneously.
- * 5. Plays continuously across all sections without restarting on scroll.
+ * Romantic Audio Engine for GitHub Uploaded Audio Tracks
+ *
+ * Track 1: Original Happy Birthday Song (uploaded to public/audio/birthday-song.mp3)
+ * Intermission: 1 full minute (60s) pause between songs
+ * Track 2: Johnny's Romantic Background Song (uploaded to public/audio/romantic-song.mp3)
+ *
+ * Features:
+ * - Plays Track 1 (Happy Birthday) first
+ * - When Track 1 finishes, pauses and waits 1 full minute (60s countdown)
+ * - Stops Track 1 completely and starts Track 2 (Romantic Song)
+ * - Never plays both songs simultaneously
+ * - Plays continuously across all sections without restarting on scroll
  */
 
-export type AudioPhase = 'idle' | 'intro' | 'intermission' | 'real-song';
+export type AudioPhase = 'idle' | 'track1' | 'intermission' | 'track2';
 
 export interface AudioState {
   isPlaying: boolean;
@@ -17,103 +23,121 @@ export interface AudioState {
   duration: number;
   volume: number;
   trackTitle: string;
+  track1Loaded: boolean;
+  track2Loaded: boolean;
 }
 
 type AudioStateListener = (state: AudioState) => void;
 
 class RomanticAudioEngine {
-  private ctx: AudioContext | null = null;
   private currentPhase: AudioPhase = 'idle';
   private isUserPlaying = false;
+  private volume = 1.0;
 
-  // Intro Web Audio synth state
-  private activeOscillators: OscillatorNode[] = [];
-  private introTimeout: number | null = null;
-  private introDuration = 14; // ~14 seconds for one full Happy Birthday piano intro
-  private introStartTime = 0;
-  private introProgressTimer: number | null = null;
-  private introCurrentTime = 0;
+  // Track 1: Original Happy Birthday Song
+  private track1Audio: HTMLAudioElement | null = null;
+  private track1Loaded = false;
+  private track1Title = 'Original Happy Birthday Song 🎂';
+  private track1Paths = [
+    './audio/birthday-song.mp3',
+    './audio/happy-birthday.mp3',
+    './audio/birthday.mp3',
+    './audio/track1.mp3',
+  ];
 
-  // Intermission (1 full minute = 60s) state
+  // Intermission (1 full minute)
   private intermissionSeconds = 60;
   private intermissionTimer: number | null = null;
 
-  // Real song (GitHub repository audio / custom file) state
-  private realAudioElement: HTMLAudioElement | null = null;
-  private realAudioLoaded = false;
-  private realAudioUrl: string | null = null;
-  private realSongTitle = 'Johnny\'s Song For Sana ❤️';
+  // Track 2: Background Romantic Song
+  private track2Audio: HTMLAudioElement | null = null;
+  private track2Loaded = false;
+  private track2Title = 'Johnny Abdullah\'s Song For Sana ❤️';
+  private track2Paths = [
+    './audio/romantic-song.mp3',
+    './audio/song.mp3',
+    './audio/background-song.mp3',
+    './audio/sana-birthday.mp3',
+    './audio/music.mp3',
+    './audio/track2.mp3',
+  ];
 
-  private volume = 0.85;
   private listeners: Set<AudioStateListener> = new Set();
+  private ctx: AudioContext | null = null;
 
   constructor() {
-    this.detectRepoAudio();
+    this.detectTracks();
   }
 
-  // Scan for background songs placed in the GitHub repository
-  private detectRepoAudio() {
-    const candidatePaths = [
-      './audio/song.mp3',
-      './audio/romantic-song.mp3',
-      './audio/sana-birthday.mp3',
-      './audio/background-song.mp3',
-      './audio/birthday.mp3',
-      './audio/music.mp3',
-      './audio/our-song.mp3',
-    ];
-
-    for (const path of candidatePaths) {
-      const probe = new Audio();
-      probe.src = path;
-      probe.oncanplay = () => {
-        if (!this.realAudioLoaded) {
-          this.initRealAudio(path, 'Johnny\'s Song For Sana ❤️ (GitHub Audio)');
+  private detectTracks() {
+    // Detect Track 1 (Original Happy Birthday Song)
+    for (const path of this.track1Paths) {
+      const probe1 = new Audio();
+      probe1.src = path;
+      probe1.oncanplay = () => {
+        if (!this.track1Loaded) {
+          this.setTrack1Source(path, 'Original Happy Birthday Song 🎂');
         }
       };
-      probe.onerror = () => {
-        // Will continue fallback search
+      probe1.onerror = () => {};
+    }
+
+    // Detect Track 2 (Background Romantic Song)
+    for (const path of this.track2Paths) {
+      const probe2 = new Audio();
+      probe2.src = path;
+      probe2.oncanplay = () => {
+        if (!this.track2Loaded) {
+          this.setTrack2Source(path, 'Johnny Abdullah\'s Song For Sana ❤️');
+        }
       };
+      probe2.onerror = () => {};
     }
   }
 
-  private initRealAudio(url: string, title?: string) {
-    if (this.realAudioElement) {
-      this.realAudioElement.pause();
-      this.realAudioElement.src = '';
+  public setTrack1Source(url: string, title = 'Original Happy Birthday Song 🎂') {
+    if (this.track1Audio) {
+      this.track1Audio.pause();
+      this.track1Audio.src = '';
     }
 
-    this.realAudioElement = new Audio(url);
-    this.realAudioElement.loop = true;
-    this.realAudioElement.volume = this.volume;
-    this.realAudioUrl = url;
-    this.realAudioLoaded = true;
-    if (title) this.realSongTitle = title;
+    this.track1Audio = new Audio(url);
+    this.track1Audio.volume = this.volume;
+    this.track1Title = title;
+    this.track1Loaded = true;
 
-    this.realAudioElement.ontimeupdate = () => {
-      if (this.currentPhase === 'real-song') {
-        this.notify();
-      }
+    this.track1Audio.ontimeupdate = () => {
+      if (this.currentPhase === 'track1') this.notify();
     };
-    this.realAudioElement.onplay = () => this.notify();
-    this.realAudioElement.onpause = () => this.notify();
-    this.realAudioElement.onended = () => this.notify();
-    this.realAudioElement.onerror = () => {
-      this.realAudioLoaded = false;
-      this.notify();
+    this.track1Audio.onended = () => {
+      // When Track 1 finishes, proceed to 1-minute intermission!
+      this.onTrack1Ended();
     };
+    this.track1Audio.onplay = () => this.notify();
+    this.track1Audio.onpause = () => this.notify();
+
+    this.notify();
   }
 
-  private initContext() {
-    if (!this.ctx) {
-      const AudioContextClass =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      this.ctx = new AudioContextClass();
+  public setTrack2Source(url: string, title = 'Johnny Abdullah\'s Song For Sana ❤️') {
+    if (this.track2Audio) {
+      this.track2Audio.pause();
+      this.track2Audio.src = '';
     }
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
+
+    this.track2Audio = new Audio(url);
+    this.track2Audio.loop = true;
+    this.track2Audio.volume = this.volume;
+    this.track2Title = title;
+    this.track2Loaded = true;
+
+    this.track2Audio.ontimeupdate = () => {
+      if (this.currentPhase === 'track2') this.notify();
+    };
+    this.track2Audio.onplay = () => this.notify();
+    this.track2Audio.onpause = () => this.notify();
+
+    this.notify();
   }
 
   public subscribe(listener: AudioStateListener) {
@@ -130,21 +154,22 @@ class RomanticAudioEngine {
   }
 
   public getState(): AudioState {
-    let title = 'Happy Birthday Piano Intro 🎹';
+    let title = this.track1Title;
     let curTime = 0;
-    let dur = this.introDuration;
+    let dur = 180;
 
-    if (this.currentPhase === 'intermission') {
-      title = `Intermission (${this.intermissionSeconds}s)... Johnny's Song Next ⏳`;
+    if (this.currentPhase === 'track1') {
+      title = this.track1Title;
+      curTime = this.track1Audio?.currentTime || 0;
+      dur = this.track1Audio?.duration || 180;
+    } else if (this.currentPhase === 'intermission') {
+      title = `Waiting 1 min (${this.intermissionSeconds}s)... Next: ${this.track2Title}`;
       curTime = 60 - this.intermissionSeconds;
       dur = 60;
-    } else if (this.currentPhase === 'real-song') {
-      title = this.realSongTitle;
-      curTime = this.realAudioElement?.currentTime || 0;
-      dur = this.realAudioElement?.duration || 210;
-    } else if (this.currentPhase === 'intro') {
-      curTime = this.introCurrentTime;
-      dur = this.introDuration;
+    } else if (this.currentPhase === 'track2') {
+      title = this.track2Title;
+      curTime = this.track2Audio?.currentTime || 0;
+      dur = this.track2Audio?.duration || 240;
     }
 
     return {
@@ -155,6 +180,8 @@ class RomanticAudioEngine {
       duration: dur,
       volume: this.volume,
       trackTitle: title,
+      track1Loaded: this.track1Loaded,
+      track2Loaded: this.track2Loaded,
     };
   }
 
@@ -162,171 +189,30 @@ class RomanticAudioEngine {
     return this.isUserPlaying;
   }
 
-  public setCustomAudio(url: string, title = 'Johnny\'s Song For Sana ❤️') {
-    this.initRealAudio(url, title);
-    // If already in real-song phase, switch and play
-    if (this.currentPhase === 'real-song' && this.isUserPlaying) {
-      this.realAudioElement?.play().catch(() => {});
-    }
-    this.notify();
-  }
-
   public setVolume(val: number) {
     this.volume = Math.max(0, Math.min(1, val));
-    if (this.realAudioElement) {
-      this.realAudioElement.volume = this.volume;
-    }
+    if (this.track1Audio) this.track1Audio.volume = this.volume;
+    if (this.track2Audio) this.track2Audio.volume = this.volume;
     this.notify();
   }
 
   public seek(seconds: number) {
-    if (this.currentPhase === 'real-song' && this.realAudioElement?.duration) {
-      this.realAudioElement.currentTime = Math.max(0, Math.min(this.realAudioElement.duration, seconds));
-    } else if (this.currentPhase === 'intro') {
-      this.introCurrentTime = Math.max(0, Math.min(this.introDuration, seconds));
+    if (this.currentPhase === 'track1' && this.track1Audio && this.track1Audio.duration) {
+      this.track1Audio.currentTime = Math.max(0, Math.min(this.track1Audio.duration, seconds));
+    } else if (this.currentPhase === 'track2' && this.track2Audio && this.track2Audio.duration) {
+      this.track2Audio.currentTime = Math.max(0, Math.min(this.track2Audio.duration, seconds));
     }
     this.notify();
   }
 
-  // --- Piano Intro Synthesizer ---
-  private stopIntroAudio() {
-    this.activeOscillators.forEach((osc) => {
-      try {
-        osc.stop();
-        osc.disconnect();
-      } catch {
-        // already stopped
-      }
-    });
-    this.activeOscillators = [];
-
-    if (this.introTimeout !== null) {
-      clearTimeout(this.introTimeout);
-      this.introTimeout = null;
+  // Called when Track 1 (Happy Birthday) ends
+  private onTrack1Ended() {
+    // 1. Stop Track 1 completely
+    if (this.track1Audio) {
+      this.track1Audio.pause();
     }
-    if (this.introProgressTimer !== null) {
-      clearInterval(this.introProgressTimer);
-      this.introProgressTimer = null;
-    }
-  }
 
-  public playTone(freq: number, startTime: number, duration: number, vol = 0.25) {
-    if (!this.ctx) return;
-
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    const osc2 = this.ctx.createOscillator();
-    const gain2 = this.ctx.createGain();
-
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(1400, startTime);
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, startTime);
-
-    osc2.type = 'triangle';
-    osc2.frequency.setValueAtTime(freq * 2, startTime);
-
-    const actualVol = vol * this.volume;
-
-    gain.gain.setValueAtTime(0, startTime);
-    gain.gain.linearRampToValueAtTime(actualVol, startTime + 0.04);
-    gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-
-    gain2.gain.setValueAtTime(0, startTime);
-    gain2.gain.linearRampToValueAtTime(actualVol * 0.35, startTime + 0.03);
-    gain2.gain.exponentialRampToValueAtTime(0.0001, startTime + duration * 0.7);
-
-    osc.connect(gain);
-    osc2.connect(gain2);
-    gain.connect(filter);
-    gain2.connect(filter);
-    filter.connect(this.ctx.destination);
-
-    this.activeOscillators.push(osc, osc2);
-
-    osc.start(startTime);
-    osc.stop(startTime + duration);
-    osc2.start(startTime);
-    osc2.stop(startTime + duration);
-  }
-
-  private startHappyBirthdayIntro() {
-    this.stopIntroAudio();
-    this.initContext();
-    if (!this.ctx) return;
-
-    this.currentPhase = 'intro';
-    this.introStartTime = Date.now();
-    this.introCurrentTime = 0;
-
-    const now = this.ctx.currentTime;
-    const tempo = 0.52;
-
-    const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, G4 = 392.0, A4 = 440.0, Bb4 = 466.16;
-    const C5 = 523.25;
-    const C3 = 130.81, F3 = 174.61, G3 = 196.0, A3 = 220.0;
-
-    const melody = [
-      { note: C4, beat: 0, dur: 0.4, bass: F3 },
-      { note: C4, beat: 0.6, dur: 0.4 },
-      { note: D4, beat: 1.2, dur: 0.8 },
-      { note: C4, beat: 2.2, dur: 0.8 },
-      { note: F4, beat: 3.2, dur: 0.8, bass: C3 },
-      { note: E4, beat: 4.2, dur: 1.4 },
-
-      { note: C4, beat: 6.0, dur: 0.4, bass: G3 },
-      { note: C4, beat: 6.6, dur: 0.4 },
-      { note: D4, beat: 7.2, dur: 0.8 },
-      { note: C4, beat: 8.2, dur: 0.8 },
-      { note: G4, beat: 9.2, dur: 0.8, bass: C3 },
-      { note: F4, beat: 10.2, dur: 1.4 },
-
-      { note: C4, beat: 12.0, dur: 0.4, bass: F3 },
-      { note: C4, beat: 12.6, dur: 0.4 },
-      { note: C5, beat: 13.2, dur: 0.9, bass: A3 },
-      { note: A4, beat: 14.3, dur: 0.9 },
-      { note: F4, beat: 15.4, dur: 0.9, bass: F3 },
-      { note: E4, beat: 16.5, dur: 0.9 },
-      { note: D4, beat: 17.6, dur: 1.3, bass: Bb4 },
-
-      { note: Bb4, beat: 19.2, dur: 0.4, bass: G3 },
-      { note: Bb4, beat: 19.8, dur: 0.4 },
-      { note: A4, beat: 20.4, dur: 0.9 },
-      { note: F4, beat: 21.5, dur: 0.9, bass: C3 },
-      { note: G4, beat: 22.6, dur: 0.9 },
-      { note: F4, beat: 23.7, dur: 2.2, bass: F3 },
-    ];
-
-    melody.forEach((item) => {
-      const time = now + item.beat * tempo;
-      this.playTone(item.note, time, item.dur * tempo * 1.5, 0.22);
-      if (item.bass) {
-        this.playTone(item.bass, time, item.dur * tempo * 2.2, 0.12);
-      }
-    });
-
-    // Track intro progress timer
-    this.introProgressTimer = window.setInterval(() => {
-      if (this.currentPhase === 'intro' && this.isUserPlaying) {
-        this.introCurrentTime += 1;
-        this.notify();
-      }
-    }, 1000);
-
-    // Exact duration of intro melody is ~14 seconds
-    const introTotalMs = 14 * 1000;
-    this.introTimeout = window.setTimeout(() => {
-      this.onIntroFinished();
-    }, introTotalMs);
-
-    this.notify();
-  }
-
-  // Called when intro finishes: enter 1 full minute (60s) intermission
-  private onIntroFinished() {
-    this.stopIntroAudio();
+    // 2. Start 1-minute intermission
     this.currentPhase = 'intermission';
     this.intermissionSeconds = 60;
     this.notify();
@@ -346,51 +232,66 @@ class RomanticAudioEngine {
           clearInterval(this.intermissionTimer);
           this.intermissionTimer = null;
         }
-        // Start real song after 1 full minute!
-        this.startRealBackgroundSong();
+        // 3. Start Track 2 (Johnny's Romantic Song)!
+        this.startTrack2();
       }
     }, 1000);
   }
 
-  // Start the real background song from GitHub repository
-  public startRealBackgroundSong() {
-    // 1. Stop any remaining intro audio completely (Never play both simultaneously!)
-    this.stopIntroAudio();
+  // Start Track 2 (Never simultaneous!)
+  public startTrack2() {
+    // Stop Track 1 completely first
+    if (this.track1Audio) {
+      this.track1Audio.pause();
+    }
 
     if (this.intermissionTimer !== null) {
       clearInterval(this.intermissionTimer);
       this.intermissionTimer = null;
     }
 
-    this.currentPhase = 'real-song';
+    this.currentPhase = 'track2';
 
-    // If real audio element exists and is loaded, play it smoothly
-    if (this.realAudioElement) {
-      this.realAudioElement.volume = this.volume;
-      this.realAudioElement.play().catch((err) => {
-        console.warn('Real audio element playback started', err);
+    if (this.track2Audio) {
+      this.track2Audio.volume = this.volume;
+      this.track2Audio.play().catch((err) => {
+        console.warn('Track 2 play triggered', err);
       });
     }
 
     this.notify();
   }
 
-  // Main User Play Toggle
+  // Start Track 1 (Happy Birthday)
+  public startTrack1() {
+    // Stop Track 2 completely first
+    if (this.track2Audio) {
+      this.track2Audio.pause();
+    }
+
+    this.currentPhase = 'track1';
+
+    if (this.track1Audio) {
+      this.track1Audio.volume = this.volume;
+      this.track1Audio.play().catch((err) => {
+        console.warn('Track 1 play triggered', err);
+      });
+    }
+
+    this.notify();
+  }
+
   public play() {
     this.isUserPlaying = true;
 
-    if (this.currentPhase === 'idle') {
-      // Step 1: Start Happy Birthday piano intro first
-      this.startHappyBirthdayIntro();
-    } else if (this.currentPhase === 'intro') {
-      this.initContext();
-      this.startHappyBirthdayIntro();
+    if (this.currentPhase === 'idle' || this.currentPhase === 'track1') {
+      this.startTrack1();
     } else if (this.currentPhase === 'intermission') {
-      // resume counting down intermission
+      // Resume intermission countdown
       this.notify();
-    } else if (this.currentPhase === 'real-song') {
-      if (this.realAudioElement) {
-        this.realAudioElement.play().catch(() => {});
+    } else if (this.currentPhase === 'track2') {
+      if (this.track2Audio) {
+        this.track2Audio.play().catch(() => {});
       }
       this.notify();
     }
@@ -399,12 +300,10 @@ class RomanticAudioEngine {
   public pause() {
     this.isUserPlaying = false;
 
-    if (this.currentPhase === 'intro') {
-      this.stopIntroAudio();
-    } else if (this.currentPhase === 'real-song') {
-      if (this.realAudioElement) {
-        this.realAudioElement.pause();
-      }
+    if (this.currentPhase === 'track1' && this.track1Audio) {
+      this.track1Audio.pause();
+    } else if (this.currentPhase === 'track2' && this.track2Audio) {
+      this.track2Audio.pause();
     }
 
     this.notify();
@@ -418,19 +317,40 @@ class RomanticAudioEngine {
     }
   }
 
-  // Fast skip option to real song if desired
-  public skipToRealSong() {
-    this.startRealBackgroundSong();
+  public skipToTrack2() {
+    this.startTrack2();
   }
 
-  // Sound effects
+  // Optional chimes
+  private initContext() {
+    if (!this.ctx) {
+      const AudioContextClass =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      this.ctx = new AudioContextClass();
+    }
+    if (this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
+  }
+
   public playCandleBlowChime() {
     this.initContext();
     if (!this.ctx) return;
     const now = this.ctx.currentTime;
     const notes = [440, 554.37, 659.25, 880, 1108.73, 1318.51, 1760];
     notes.forEach((freq, idx) => {
-      this.playTone(freq, now + idx * 0.08, 0.7, 0.2);
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+      gain.gain.setValueAtTime(0.18 * this.volume, now + idx * 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 0.6);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now + idx * 0.08);
+      osc.stop(now + idx * 0.08 + 0.6);
     });
   }
 
@@ -438,8 +358,19 @@ class RomanticAudioEngine {
     this.initContext();
     if (!this.ctx) return;
     const now = this.ctx.currentTime;
-    this.playTone(523.25, now, 0.5, 0.18);
-    this.playTone(659.25, now + 0.06, 0.6, 0.2);
+    [523.25, 659.25].forEach((freq, idx) => {
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+      gain.gain.setValueAtTime(0.16 * this.volume, now + idx * 0.06);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.06 + 0.5);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now + idx * 0.06);
+      osc.stop(now + idx * 0.06 + 0.5);
+    });
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Sparkles, Flame, RotateCcw, Gift, X } from 'lucide-react';
+import { Heart, Sparkles, Flame, RotateCcw, Gift, X, Maximize2, Film } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { romanticAudio } from '../utils/romanticAudio';
 
@@ -12,6 +12,7 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ portraitSrc }) =
   const [hasBlownAll, setHasBlownAll] = useState<boolean>(false);
   const [wishMade, setWishMade] = useState<boolean>(false);
   const [showSurpriseModal, setShowSurpriseModal] = useState<boolean>(false);
+  const [isCinematicViewOpen, setIsCinematicViewOpen] = useState<boolean>(false);
 
   const allOut = candlesLit.every((c) => !c);
 
@@ -97,7 +98,7 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ portraitSrc }) =
         </h2>
         <div className="flex items-center justify-center gap-3 mt-4 text-xs sm:text-sm text-pink-300/80 tracking-widest uppercase font-medium">
           <span className="h-px w-10 bg-gradient-to-r from-transparent to-pink-500" />
-          <span>A CELEBRATION CRAFTED WITH ETERNAL LOVE BY JOHNNY</span>
+          <span>A CELEBRATION CRAFTED WITH ETERNAL LOVE BY JOHNNY ABDULLAH</span>
           <span className="h-px w-10 bg-gradient-to-l from-transparent to-pink-500" />
         </div>
       </div>
@@ -105,16 +106,35 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ portraitSrc }) =
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left / Center: Sana's Portrait in Luxury Animated Frame */}
         <div className="lg:col-span-6 flex flex-col items-center">
-          <div className="relative group p-2.5 sm:p-3.5 rounded-3xl bg-gradient-to-b from-amber-400/35 via-pink-500/25 to-purple-600/35 shadow-[0_0_50px_rgba(255,45,117,0.4)] transition-all duration-500 hover:shadow-[0_0_75px_rgba(255,45,117,0.7)]">
+          <div
+            onClick={() => {
+              setIsCinematicViewOpen(true);
+              romanticAudio.playHeartChime();
+            }}
+            className="relative group p-2.5 sm:p-3.5 rounded-3xl bg-gradient-to-b from-amber-400/40 via-pink-500/30 to-purple-600/40 shadow-[0_0_55px_rgba(255,45,117,0.45)] hover:shadow-[0_0_85px_rgba(255,45,117,0.8)] transition-all duration-700 cursor-pointer"
+            title="Click to view in Theatrical Cinema Mode"
+          >
             {/* Animated glowing border ring */}
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-pink-500 via-amber-400 to-purple-600 opacity-60 blur-md group-hover:opacity-95 transition-opacity" />
+            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-pink-500 via-amber-400 to-purple-600 opacity-60 blur-md group-hover:opacity-95 transition-opacity duration-700" />
 
-            <div className="relative overflow-hidden rounded-2xl bg-[#08040a] aspect-[4/5] w-full max-w-[340px] sm:max-w-[380px] border border-amber-400/40">
+            <div className="relative overflow-hidden rounded-2xl bg-[#08040a] aspect-[4/5] w-full max-w-[340px] sm:max-w-[380px] border border-amber-400/50 shadow-2xl">
+              {/* Top Film Reel Slate */}
+              <div className="absolute top-0 inset-x-0 z-20 px-3.5 py-1.5 bg-black/75 backdrop-blur-md border-b border-amber-400/30 flex items-center justify-between text-[10px] font-mono tracking-wider text-amber-200">
+                <span className="flex items-center gap-1.5">
+                  <Film className="w-3 h-3 text-pink-400" />
+                  <span>35MM CINEMA STILL</span>
+                </span>
+                <span className="text-pink-300 font-bold uppercase tracking-widest text-[9px]">
+                  24 FPS • QUEEN SANA
+                </span>
+              </div>
+
+              {/* The Actual Portrait Image with cinematic Ken Burns zoom */}
               <img
                 src={portraitSrc}
                 alt="Portrait of Sana"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-full object-cover object-top transition-transform duration-1000 ease-out group-hover:scale-108"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   if (!target.src.includes('WA0054')) {
@@ -123,21 +143,36 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ portraitSrc }) =
                 }}
               />
 
-              {/* Bottom cinematic gradient scrim */}
-              <div className="absolute inset-x-0 bottom-0 pt-16 pb-4 px-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col items-center text-center">
-                <span className="font-script text-2xl sm:text-3xl text-amber-200">
+              {/* Cinematic Vignette Overlay */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle at center, transparent 45%, rgba(8,4,10,0.65) 100%)',
+                }}
+              />
+
+              {/* Anamorphic Lens Flare Beam */}
+              <div className="absolute top-1/2 inset-x-0 h-px bg-gradient-to-r from-transparent via-pink-400/50 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+              {/* Bottom cinematic gradient scrim & caption */}
+              <div className="absolute inset-x-0 bottom-0 pt-16 pb-4 px-4 bg-gradient-to-t from-black/95 via-black/60 to-transparent flex flex-col items-center text-center">
+                <span className="font-script text-2xl sm:text-3xl text-amber-200 drop-shadow-[0_0_12px_rgba(247,208,112,0.6)]">
                   My Beautiful Sana
                 </span>
-                <p className="text-[12px] text-pink-200/90 font-light tracking-wide mt-0.5">
+                <p className="text-[12px] text-pink-200 font-light tracking-wide mt-0.5">
                   The smile that lights up my whole world
                 </p>
+                <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-950/80 border border-pink-400/40 text-[10px] text-pink-200 font-medium opacity-90 group-hover:opacity-100">
+                  <Maximize2 className="w-3 h-3 text-amber-300" />
+                  <span>Tap for Full Cinema Experience 🎬</span>
+                </div>
               </div>
 
-              {/* Gold frame corner accents */}
-              <div className="absolute top-2.5 left-2.5 w-4 h-4 border-t-2 border-l-2 border-amber-300" />
-              <div className="absolute top-2.5 right-2.5 w-4 h-4 border-t-2 border-r-2 border-amber-300" />
-              <div className="absolute bottom-2.5 left-2.5 w-4 h-4 border-b-2 border-l-2 border-amber-300" />
-              <div className="absolute bottom-2.5 right-2.5 w-4 h-4 border-b-2 border-r-2 border-amber-300" />
+              {/* Gold frame corner filigree accents */}
+              <div className="absolute top-2.5 left-2.5 w-4 h-4 border-t-2 border-l-2 border-amber-300 pointer-events-none" />
+              <div className="absolute top-2.5 right-2.5 w-4 h-4 border-t-2 border-r-2 border-amber-300 pointer-events-none" />
+              <div className="absolute bottom-2.5 left-2.5 w-4 h-4 border-b-2 border-l-2 border-amber-300 pointer-events-none" />
+              <div className="absolute bottom-2.5 right-2.5 w-4 h-4 border-b-2 border-r-2 border-amber-300 pointer-events-none" />
             </div>
           </div>
         </div>
@@ -316,7 +351,7 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ portraitSrc }) =
                   To My Beloved Queen
                 </span>
                 <h3 id="modal-special-wish" className="font-serif text-xl text-white font-bold">
-                  Johnny's Sacred Birthday Du'a
+                  Johnny Abdullah's Sacred Birthday Du'a
                 </h3>
               </div>
             </div>
@@ -340,6 +375,66 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ portraitSrc }) =
               >
                 Cherished Forever ❤️
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Fullscreen Theatrical Cinema Mode Modal */}
+      {isCinematicViewOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/95 backdrop-blur-3xl animate-fade-in"
+          onClick={() => setIsCinematicViewOpen(false)}
+        >
+          <div
+            className="relative max-w-2xl w-full rounded-3xl bg-black/90 border border-amber-400/40 p-4 sm:p-6 shadow-[0_0_90px_rgba(255,45,117,0.5)] overflow-hidden text-center flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setIsCinematicViewOpen(false)}
+              className="absolute top-4 right-4 z-30 w-10 h-10 rounded-full bg-black/80 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+              title="Close Cinema Mode"
+              aria-label="Close Cinema Mode"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-2 mb-3 text-xs font-mono text-amber-300">
+              <Film className="w-4 h-4 text-pink-400" />
+              <span>THE ROYAL THEATER • SCENE 01: SANA'S PORTRAIT</span>
+            </div>
+
+            <div className="relative aspect-[4/5] max-h-[62vh] w-full max-w-[420px] rounded-2xl overflow-hidden border-2 border-amber-400/50 shadow-2xl mx-auto my-2 group">
+              <img
+                src={portraitSrc}
+                alt="Portrait of Sana in Cinema Mode"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-105"
+              />
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.7) 100%)',
+                }}
+              />
+              <div className="absolute top-3 left-3 w-5 h-5 border-t-2 border-l-2 border-amber-300" />
+              <div className="absolute top-3 right-3 w-5 h-5 border-t-2 border-r-2 border-amber-300" />
+              <div className="absolute bottom-3 left-3 w-5 h-5 border-b-2 border-l-2 border-amber-300" />
+              <div className="absolute bottom-3 right-3 w-5 h-5 border-b-2 border-r-2 border-amber-300" />
+            </div>
+
+            <div className="mt-4 max-w-lg">
+              <span className="font-script text-3xl sm:text-4xl text-amber-200 block drop-shadow-[0_0_15px_rgba(247,208,112,0.6)]">
+                My Beautiful Sana
+              </span>
+              <p className="font-editorial text-base sm:text-lg text-slate-200 italic mt-1">
+                “Every frame of you is a timeless masterpiece painted by heaven itself.”
+              </p>
+              <span className="text-[11px] text-pink-300/80 block mt-1 font-light">
+                Dedicated with eternal love by Johnny Abdullah (Abdullah) ❤️
+              </span>
             </div>
           </div>
         </div>

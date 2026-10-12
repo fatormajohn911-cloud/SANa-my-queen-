@@ -34,7 +34,7 @@ export const ReplayControl: React.FC<ReplayControlProps> = ({ onReplay }) => {
           FOR MY SANA ❤️
         </h3>
         <p className="font-script text-2xl sm:text-3xl text-pink-300 mb-6 drop-shadow-[0_0_12px_rgba(255,45,117,0.5)]">
-          A Birthday Surprise From Johnny
+          A Birthday Surprise From Johnny Abdullah
         </p>
 
         {/* Replay Surprise Button */}

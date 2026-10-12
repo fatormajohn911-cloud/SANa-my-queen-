@@ -80,7 +80,7 @@ export const LongDistanceSection: React.FC = () => {
           “Miles may separate us, but you will always have a special place in my heart.”
         </span>
         <div className="flex items-center justify-center gap-2 mt-3 text-xs text-pink-200/90 font-light">
-          <span>A solemn promise from Johnny in Sierra Leone to Sana in Pakistan</span>
+          <span>A solemn promise from Johnny Abdullah in Sierra Leone to Sana in Pakistan</span>
         </div>
       </div>
 
@@ -177,7 +177,7 @@ export const LongDistanceSection: React.FC = () => {
                 Sierra Leone 🇸🇱
               </span>
               <span className="text-xs text-slate-300 font-light">
-                Johnny's Local Time (GMT)
+                Johnny Abdullah's Local Time (GMT)
               </span>
             </div>
             <div className="font-mono text-sm sm:text-base text-white font-medium bg-emerald-950/40 px-3 py-1 rounded-lg border border-emerald-500/30">

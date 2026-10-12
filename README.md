@@ -1,141 +1,92 @@
-# FOR MY SANA ❤️ — A Birthday Surprise From Johnny
+# FOR MY SANA ❤️ — A Birthday Surprise From Johnny Abdullah
 
-A luxury, romantic, mobile-first birthday website crafted with love for **Sana** from **Johnny**, celebrating their bond across **Sierra Leone 🇸🇱 and Pakistan 🇵🇰**.
+A luxury, romantic, mobile-first birthday website crafted with love for **Sana** from **Johnny Abdullah (Abdullah)**, celebrating their bond across **Sierra Leone 🇸🇱 and Pakistan 🇵🇰**.
 
 ---
 
-## 🌟 Features Included
+## 🌟 Highlights
 
-1. **Opening Surprise Gate**: “Sana, I made something special just for you ❤️” with interactive “Open Your Surprise” button and romantic fanfare.
-2. **Birthday Reveal**:
-   - Sana's real portrait with glowing neon-pink/purple lighting, gold filigree trim, and floating romantic sparkles.
-   - Interactive birthday cake with realistic candles: tap individual candles or tap "Blow Out All Candles & Make a Wish" to blow them out with realistic smoke animations, celebratory chime arpeggios, and confetti showers.
+1. **Opening Surprise Gate**: “Sana, I made something special just for you ❤️” with interactive “Open Your Surprise” button and celebratory confetti.
+2. **Cinematographic Birthday Reveal**:
+   - Sana's real portrait with 35mm cinematographic framing, anamorphic lens flares, vignette optics, and an interactive **Fullscreen Theatrical Cinema Screening Mode**.
+   - Realistic animated birthday cake with interactive candles that Sana can tap to blow out with smoke animations, celebratory fanfare, and confetti showers.
    - Working "Relight Candles 🕯️" button.
-3. **Heartfelt Love Letter**:
-   - Sincere and vulnerable apology from Johnny for forgetting her birthday.
-   - Deep, heartfelt Islamic prayers (du'as) asking Allah (SWT) to bless Sana with unending happiness, radiant health, peace (Sakina), barakah, and success in Dunya and Akhirah.
-   - "Save Letter" button to copy the letter text.
+3. **Heartfelt Love Letters from Johnny Abdullah**:
+   - Sincere and vulnerable apology from Johnny Abdullah (Abdullah) for forgetting her birthday.
+   - 5 sacred Islamic du'as asking Allah (SWT) to bless Sana with unending happiness, radiant health, Sakina (peace), barakah, and success in Dunya and Akhirah.
+   - Interactive love buttons: "Bloom Rose 🌹", "Release Hearts 💕", and "Secret Whisper 💌".
 4. **Long-Distance Love (Sierra Leone 🇸🇱 ❤️ 🇵🇰 Pakistan)**:
-   - Freetown (GMT) & Pakistan (PKT) dual live clocks.
-   - Distance visualizer celebrating the 7,500+ km connection with 0 mm distance between hearts.
-   - Interactive "Send Love Signal" button with celebratory confetti and sound chimes.
-5. **Memories Gallery**:
-   - Preserves Sana's real face, natural skin tone, and photos (`IMG-20261011-WA0054.jpg`, `IMG-20261011-WA0050.jpg`, `IMG-20261011-WA0049.jpg`, and the video clip).
-   - Lightbox view for mobile and desktop with heart reaction counters.
-   - Built-in photo customizer for Johnny to swap or upload new camera photos directly.
-6. **Final Surprise**:
-   - "Reveal Johnny's Final Surprise 💝" button.
-   - 3D animated beating heart with Johnny's 6 unbreakable promises to Sana.
-7. **Replay Experience**:
-   - Seamless replay button to experience the surprise again from the beginning.
-8. **Romantic Music**:
-   - Custom Web Audio API synthesizer playing a tender, soothing music-box / piano melody of "Happy Birthday".
-   - Zero external audio dependencies (works 100% offline and on Android mobile browsers without buffering).
-   - Option to upload an MP3 of their personal favorite song.
+   - Dual live clocks for Freetown (GMT) & Pakistan (PKT).
+   - Celestial 7,500 km animated light trail visualizer bridging the continents with 0 mm distance between hearts.
+   - Solemn vow: *“Miles may separate us, but you will always have a special place in my heart.”*
+5. **Cinematographic Memories Gallery**:
+   - 35mm Panavision and Royal Cinema film-slate cards preserving Sana's real photos (`IMG-20261011-WA0054.jpg`, `IMG-20261011-WA0050.jpg`, `IMG-20261011-WA0049.jpg`, and the video clip).
+   - Full Theatrical Lightbox with **Previous (◀) & Next (▶) cinematic navigation**, film counter (`SCENE 1 OF 3`), poetic movie quotes, and heart reaction counters.
+6. **The Final Surprise**:
+   - "Reveal Johnny Abdullah's Final Surprise 💝" button.
+   - 3D animated beating heart with Johnny Abdullah's 6 unbreakable promises to Sana.
+7. **Phone Hardware Volume Controls**:
+   - Clean, uninterrupted screen without floating speaker icons or volume sliders.
+   - Sound level is comfortably controlled using your physical phone volume buttons.
+   - Seamless transition: Track 1 (Happy Birthday) -> 1-minute intermission -> Track 2 (Johnny Abdullah's romantic song).
+8. **Replay Surprise**:
+   - Smooth scroll to top to replay the celebration anytime.
 
 ---
 
-## 📂 Project Structure
+## 🚀 Why GitHub Deployment Failed & How It Is Now Fixed
 
-```text
-├── .github/
-│   └── workflows/
-│       └── deploy.yml          # Automated GitHub Pages deployment workflow
-├── public/
-│   └── images/
-│       ├── IMG-20261011-WA0054.jpg   # Portrait photo asset
-│       ├── IMG-20261011-WA0050.jpg   # Eyes & modesty photo asset
-│       └── IMG-20261011-WA0049.jpg   # Mehndi & grace photo asset
-├── src/
-│   ├── components/
-│   │   ├── AudioPlayer.tsx           # Floating romantic soundtrack controls
-│   │   ├── BirthdayReveal.tsx        # Portrait, cake & candles, confetti
-│   │   ├── DeploymentGuideModal.tsx  # Interactive GitHub guide modal
-│   │   ├── FinalSurpriseModal.tsx    # Beating heart & Johnny's 6 promises
-│   │   ├── FloatingPetalsCanvas.tsx  # Rose petals & golden stardust engine
-│   │   ├── HeroGate.tsx              # Opening envelope & surprise reveal
-│   │   ├── LongDistanceSection.tsx   # Sierra Leone 🇸🇱 to Pakistan 🇵🇰
-│   │   ├── LoveLetter.tsx            # Johnny's letter, apology & du'as
-│   │   ├── MemoriesGallery.tsx       # Photo gallery & lightbox
-│   │   ├── PhotoManagerModal.tsx     # Photo asset switcher & device upload
-│   │   ├── ReplayControl.tsx         # Restart experience & footer
-│   │   └── RomanticHeader.tsx        # Top navigation & quick actions
-│   ├── utils/
-│   │   └── romanticAudio.ts          # Web Audio API romantic melody engine
-│   ├── App.tsx                       # Main application coordinator
-│   ├── index.css                     # Tailwind CSS & keyframe animations
-│   └── main.tsx                      # React root
-├── index.html                        # App title, fonts & meta tags
-├── package.json                      # Dependencies & build scripts
-├── tsconfig.json                     # TypeScript configuration
-└── vite.config.ts                    # Vite build configuration (base: './')
-```
+If your deployment failed when transferring code to GitHub, here is why and how it's fixed:
+
+1. **Peer Dependency Conflict Resolved**:
+   - An outdated `esbuild` dependency was conflicting with `vite 8`, causing GitHub's `npm install` step to abort with `ERESOLVE could not resolve`.
+   - **Fix Applied**: Removed conflicting `esbuild` package and added `.npmrc` with `legacy-peer-deps=true`.
+
+2. **GitHub Actions Workflow Updated**:
+   - `.github/workflows/deploy.yml` has been updated with `npm install --legacy-peer-deps` so every build on GitHub runners executes cleanly.
+
+3. **Required One-Time GitHub Setting**:
+   - In your GitHub repo: Go to **Settings** > **Pages**.
+   - Under **Build and deployment** > **Source**, make sure **GitHub Actions** is selected (NOT "Deploy from a branch").
+   - If you prefer deploying directly from your computer, you can also run:
+     ```bash
+     npm run deploy
+     ```
+     This automatically builds the project and publishes it to the `gh-pages` branch!
 
 ---
 
-## 🚀 How to Deploy to GitHub Pages (Step-by-Step)
+## 🎵 How to Add Your Music Files to GitHub
 
-### Step 1: Push the Code to your GitHub Repository
+Place your audio files in `public/audio/`:
+- `public/audio/birthday-song.mp3` — Song 1: Happy Birthday track
+- `public/audio/romantic-song.mp3` — Song 2: Johnny Abdullah's background romantic track
 
-Run these commands in your terminal:
+If no files are added yet, the built-in romantic music-box synthesizer plays seamlessly!
 
-```bash
-# Initialize git and stage all files
-git init
-git add .
-git commit -m "feat: romantic birthday surprise for Sana ❤️"
+---
 
-# Rename default branch to main
-git branch -M main
+## 📸 Sana's Original Photos
 
-# Link to your GitHub repository
-git remote add origin https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME.git
-
-# Push code to GitHub
-git push -u origin main
-```
-
-*(Replace `YOUR_GITHUB_USERNAME` and `YOUR_REPOSITORY_NAME` with your actual GitHub username and repository name).*
-
-### Step 2: Confirm Sana's Photos in `public/images/`
-
-The project references the 3 images in `public/images/`:
+Sana's photos are in `public/images/`:
 - `public/images/IMG-20261011-WA0054.jpg`
 - `public/images/IMG-20261011-WA0050.jpg`
 - `public/images/IMG-20261011-WA0049.jpg`
 
-Ensure your original high-resolution photos are saved in that directory before or after pushing.
-
-### Step 3: Enable GitHub Pages in Repository Settings
-
-1. Open your repository on **GitHub.com**.
-2. Go to **Settings** > **Pages** (on the left menu).
-3. Under **Build and deployment** > **Source**, choose **GitHub Actions** (NOT "Deploy from a branch").
-4. That's it! GitHub will automatically trigger the workflow configured in `.github/workflows/deploy.yml`.
-
-### Step 4: Monitor the Deployment
-
-1. Click on the **Actions** tab at the top of your GitHub repository.
-2. You will see the workflow titled **"Deploy Romantic Birthday Surprise to GitHub Pages"** running.
-3. Once the workflow turns green (completed), click on it or return to **Settings > Pages** to view the live public URL:
-
-```text
-https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPOSITORY_NAME/
-```
-
-Send this link to Sana on WhatsApp! It is mobile-first, optimized for Android smartphones, and has smooth touch targets and animations.
-
 ---
 
-## 💻 Local Development
+## 💻 Local Commands
 
 ```bash
 # Install dependencies
-npm install
+npm install --legacy-peer-deps
 
 # Start development server
 npm run dev
 
 # Build production bundle
 npm run build
+
+# Deploy to GitHub Pages (optional 1-click alternative)
+npm run deploy
 ```

@@ -14,13 +14,10 @@ import { LongDistanceSection } from './components/LongDistanceSection';
 import { MemoriesGallery } from './components/MemoriesGallery';
 import { FinalSurpriseModal } from './components/FinalSurpriseModal';
 import { ReplayControl } from './components/ReplayControl';
-import { PhotoManagerModal } from './components/PhotoManagerModal';
 import { CinematicScene } from './components/CinematicScene';
-import { Camera } from 'lucide-react';
 
 export default function App() {
   const [isRevealed, setIsRevealed] = useState<boolean>(false);
-  const [showPhotoManager, setShowPhotoManager] = useState<boolean>(false);
   const [activeScene, setActiveScene] = useState<string>('scene-01');
 
   // Photos state loaded from localStorage for instant customization
@@ -189,7 +186,7 @@ export default function App() {
         <CinematicScene
           id="scene-01"
           sceneNumber="ACT I"
-          sceneTitle="A SURPRISE FROM JOHNNY"
+          sceneTitle="A SURPRISE FROM JOHNNY ABDULLAH"
         >
           <HeroGate
             isRevealed={isRevealed}
@@ -250,27 +247,6 @@ export default function App() {
 
       {/* Section 7: Replay Surprise Control & Footer */}
       <ReplayControl onReplay={handleReplay} />
-
-      {/* Floating Photos Customizer Button (Discreet, bottom-left) */}
-      <div className="fixed bottom-4 left-4 z-40">
-        <button
-          onClick={() => setShowPhotoManager(true)}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-full glass-panel border border-pink-500/30 text-pink-200 text-xs hover:text-white hover:border-pink-500/60 transition-all shadow-xl shadow-black/50 min-h-[44px]"
-          title="Upload or change photos"
-        >
-          <Camera className="w-4 h-4 text-pink-400" />
-          <span className="hidden sm:inline">Photo Assets</span>
-        </button>
-      </div>
-
-      {/* Photos Manager Modal */}
-      <PhotoManagerModal
-        isOpen={showPhotoManager}
-        onClose={() => setShowPhotoManager(false)}
-        customPhotos={customPhotos}
-        onUpdatePhoto={handleUpdatePhoto}
-        onResetPhotos={handleResetPhotos}
-      />
     </div>
   );
 }

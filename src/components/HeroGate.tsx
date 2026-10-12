@@ -37,7 +37,7 @@ export const HeroGate: React.FC<HeroGateProps> = ({ isRevealed, onOpenSurprise }
           <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-spin" style={{ animationDuration: '6s' }} />
           <span>A Private Birthday Dedication</span>
           <span className="text-pink-400 font-bold">•</span>
-          <span className="text-pink-300">From Johnny</span>
+          <span className="text-pink-300">From Johnny Abdullah</span>
         </div>
 
         {/* Cinematic Main Title */}
@@ -81,7 +81,7 @@ export const HeroGate: React.FC<HeroGateProps> = ({ isRevealed, onOpenSurprise }
         )}
 
         <div className="mt-8 text-xs text-pink-300/60 flex items-center gap-2">
-          <span>Tap to unveil music, cake, memories & Johnny's heartfelt love</span>
+          <span>Tap to unveil music, cake, memories & Johnny Abdullah's heartfelt love</span>
         </div>
       </div>
     </section>
