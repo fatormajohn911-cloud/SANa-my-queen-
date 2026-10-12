@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Heart, Sparkles, Maximize2, X, Video, Play, Volume2, VolumeX, Upload, Film, ChevronLeft, ChevronRight, Clapperboard } from 'lucide-react';
+import { Heart, Sparkles, Maximize2, X, Video, Play, Volume2, VolumeX, ChevronLeft, ChevronRight, Clapperboard } from 'lucide-react';
 import { romanticAudio } from '../utils/romanticAudio';
 import { getAssetUrl } from '../utils/assetUrl';
+import { CinematicFrame } from './CinematicFrame';
 import confetti from 'canvas-confetti';
 
 export interface MemoryItem {
@@ -27,7 +28,6 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
   const [customVideoUrl, setCustomVideoUrl] = useState<string | null>(null);
   const [isVideoMuted, setIsVideoMuted] = useState<boolean>(true);
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
-  const videoInputRef = useRef<HTMLInputElement | null>(null);
   const videoPlayerRef = useRef<HTMLVideoElement | null>(null);
 
   const [likesMap, setLikesMap] = useState<Record<string, number>>({
@@ -106,15 +106,6 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
     });
   };
 
-  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setCustomVideoUrl(url);
-      setShowVideoModal(true);
-    }
-  };
-
   const selectedMemory = selectedMemoryIndex !== null ? memories[selectedMemoryIndex] : null;
 
   const handlePrev = useCallback(() => {
@@ -177,8 +168,18 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
             }}
             className="group relative rounded-3xl glass-panel border border-pink-500/25 hover:border-amber-400/60 p-3.5 sm:p-4 shadow-2xl hover:shadow-[0_0_45px_rgba(255,45,117,0.4)] transition-all duration-700 cursor-pointer flex flex-col justify-between"
           >
-            {/* Cinematic Image Frame with Optics */}
-            <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-black/80 border border-amber-400/30 mb-4 shadow-inner">
+            {/* Cinematic Image Frame with Optics & Ken Burns zoom */}
+            <CinematicFrame
+              src={item.imageSrc}
+              alt={item.title}
+              aspectRatio="aspect-[3/4]"
+              panVariant={(((index % 3) + 1) as 1 | 2 | 3)}
+              glowingBorder={true}
+              showFiligree={true}
+              showVignette={true}
+              showLensSweep={true}
+              className="mb-4 shadow-inner"
+            >
               {/* Top Romantic Frame Accent */}
               <div className="absolute top-0 inset-x-0 z-20 px-3 py-1.5 bg-black/60 backdrop-blur-md border-b border-amber-400/20 flex items-center justify-between text-[11px] text-amber-200">
                 <span className="flex items-center gap-1.5 font-serif font-medium">
@@ -190,44 +191,19 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
                 </span>
               </div>
 
-              {/* Real Image with Ken Burns smooth breathing zoom */}
-              <img
-                src={item.imageSrc}
-                alt={item.title}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-top group-hover:scale-108 transition-transform duration-1000 ease-out"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  if (!target.src.includes('WA0054')) {
-                    target.src = getAssetUrl('images/IMG-20261011-WA0054.jpg');
-                  }
-                }}
-              />
-
-              {/* Authentic Cinematic Vignette */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: 'radial-gradient(circle at center, transparent 45%, rgba(8,4,10,0.7) 100%)',
-                }}
-              />
-
-              {/* Anamorphic Lens Flare Beam */}
-              <div className="absolute top-1/2 inset-x-0 h-px bg-gradient-to-r from-transparent via-pink-400/40 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
               {/* Tag pill */}
-              <div className="absolute top-9 left-3 z-10 px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-pink-500/30 text-[10px] uppercase tracking-wider text-pink-200 font-medium">
+              <div className="absolute top-9 left-3 z-20 px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-pink-500/30 text-[10px] uppercase tracking-wider text-pink-200 font-medium">
                 {item.tag}
               </div>
 
               {/* Theatrical Cinema Mode Hover Indicator */}
-              <div className="absolute top-9 right-3 z-10 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-amber-400/40 text-amber-200 text-[10px] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="absolute top-9 right-3 z-20 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-amber-400/40 text-amber-200 text-[10px] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <Maximize2 className="w-3 h-3" />
                 <span>Cinema View</span>
               </div>
 
               {/* Bottom Gradient overlay with Movie Lower-Third */}
-              <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/95 via-black/60 to-transparent">
+              <div className="absolute inset-x-0 bottom-0 z-20 p-4 bg-gradient-to-t from-black/95 via-black/60 to-transparent">
                 <span className="font-editorial text-xl text-amber-200 font-semibold block drop-shadow-[0_0_10px_rgba(247,208,112,0.5)]">
                   {item.title}
                 </span>
@@ -235,13 +211,7 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
                   {item.subtitle}
                 </span>
               </div>
-
-              {/* Gold frame corner filigree accents */}
-              <div className="absolute top-2.5 left-2.5 w-3.5 h-3.5 border-t-2 border-l-2 border-amber-300/80 pointer-events-none" />
-              <div className="absolute top-2.5 right-2.5 w-3.5 h-3.5 border-t-2 border-r-2 border-amber-300/80 pointer-events-none" />
-              <div className="absolute bottom-2.5 left-2.5 w-3.5 h-3.5 border-b-2 border-l-2 border-amber-300/80 pointer-events-none" />
-              <div className="absolute bottom-2.5 right-2.5 w-3.5 h-3.5 border-b-2 border-r-2 border-amber-300/80 pointer-events-none" />
-            </div>
+            </CinematicFrame>
 
             {/* Bottom Details & Interaction */}
             <div className="px-1 flex items-center justify-between mt-auto pt-2 border-t border-pink-500/15">
@@ -343,14 +313,20 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
                   className="w-full h-full object-contain"
                 />
               ) : (
-                <div className="relative w-full h-full flex flex-col items-center justify-center p-6 text-center">
-                  <div className="relative w-full h-full rounded-xl overflow-hidden mb-3">
-                    <img
-                      src={customPhotos['wa-0049'] || getAssetUrl('images/IMG-20261011-WA0049.jpg')}
-                      alt="Sana Video Poster"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col items-center justify-end p-4">
+                <div className="relative w-full h-full flex flex-col items-center justify-center p-4 text-center">
+                  <CinematicFrame
+                    src={customPhotos['wa-0049'] || getAssetUrl('images/IMG-20261011-WA0049.jpg')}
+                    alt="Sana Video Poster"
+                    aspectRatio="aspect-[9/16]"
+                    objectFit="cover"
+                    panVariant={2}
+                    glowingBorder={true}
+                    showFiligree={true}
+                    showVignette={true}
+                    showLensSweep={true}
+                    className="w-full h-full max-h-[50vh] rounded-xl mb-3 shadow-2xl"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col items-center justify-end p-4 z-20">
                       <span className="font-script text-2xl text-amber-200">
                         My Beautiful Queen Sana
                       </span>
@@ -358,7 +334,7 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
                         In emerald green with mehndi on her hands
                       </p>
                     </div>
-                  </div>
+                  </CinematicFrame>
                 </div>
               )}
             </div>
@@ -416,54 +392,46 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ customPhotos }
               </div>
             </div>
 
-            {/* High-Res Theatrical Frame with Navigation Arrows */}
-            <div className="relative aspect-[3/4] max-h-[58vh] w-full max-w-[420px] mx-auto rounded-2xl overflow-hidden bg-black/95 border-2 border-amber-400/40 shadow-2xl my-3 group">
-              <img
+            {/* High-Res Theatrical Frame with Navigation Arrows & Ken Burns zoom */}
+            <div className="relative w-full max-w-[420px] mx-auto my-3 group">
+              <CinematicFrame
                 src={selectedMemory.imageSrc}
                 alt={selectedMemory.title}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-contain"
-              />
-
-              {/* Cinema Vignette */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: 'radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.6) 100%)',
-                }}
-              />
-
-              {/* Prev Button */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handlePrev();
-                }}
-                className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-pink-600 border border-white/20 text-white flex items-center justify-center transition-all min-h-[44px] min-w-[44px]"
-                title="Previous Scene (Left Arrow)"
-                aria-label="Previous image"
+                aspectRatio="aspect-[3/4]"
+                objectFit="contain"
+                panVariant={1}
+                glowingBorder={true}
+                showFiligree={true}
+                showVignette={true}
+                showLensSweep={true}
+                className="max-h-[58vh] border-2 shadow-2xl"
               >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
+                {/* Prev Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePrev();
+                  }}
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/75 hover:bg-pink-600 border border-white/20 text-white flex items-center justify-center transition-all min-h-[44px] min-w-[44px]"
+                  title="Previous Scene (Left Arrow)"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
 
-              {/* Next Button */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNext();
-                }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-pink-600 border border-white/20 text-white flex items-center justify-center transition-all min-h-[44px] min-w-[44px]"
-                title="Next Scene (Right Arrow)"
-                aria-label="Next image"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-
-              {/* Gold frame corner accents */}
-              <div className="absolute top-2.5 left-2.5 w-4 h-4 border-t-2 border-l-2 border-amber-300 pointer-events-none" />
-              <div className="absolute top-2.5 right-2.5 w-4 h-4 border-t-2 border-r-2 border-amber-300 pointer-events-none" />
-              <div className="absolute bottom-2.5 left-2.5 w-4 h-4 border-b-2 border-l-2 border-amber-300 pointer-events-none" />
-              <div className="absolute bottom-2.5 right-2.5 w-4 h-4 border-b-2 border-r-2 border-amber-300 pointer-events-none" />
+                {/* Next Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNext();
+                  }}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/75 hover:bg-pink-600 border border-white/20 text-white flex items-center justify-center transition-all min-h-[44px] min-w-[44px]"
+                  title="Next Scene (Right Arrow)"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </CinematicFrame>
             </div>
 
             {/* Lower Third Story Details */}

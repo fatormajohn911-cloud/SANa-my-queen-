@@ -171,6 +171,71 @@
   -webkit-mask-image: radial-gradient(circle at center, black 65%, transparent 100%);
 }
 
+/* Cinematic Ken Burns slow-pan & breathing zoom */
+@keyframes kenburns-pan-1 {
+  0% {
+    transform: scale(1) translate(0%, 0%);
+  }
+  50% {
+    transform: scale(1.08) translate(-1.5%, -1%);
+  }
+  100% {
+    transform: scale(1) translate(0%, 0%);
+  }
+}
+
+@keyframes kenburns-pan-2 {
+  0% {
+    transform: scale(1.06) translate(1%, 0.5%);
+  }
+  50% {
+    transform: scale(1) translate(0%, 0%);
+  }
+  100% {
+    transform: scale(1.06) translate(1%, 0.5%);
+  }
+}
+
+@keyframes kenburns-pan-3 {
+  0% {
+    transform: scale(1) translate(-1%, 0.5%);
+  }
+  50% {
+    transform: scale(1.07) translate(1.2%, -1%);
+  }
+  100% {
+    transform: scale(1) translate(-1%, 0.5%);
+  }
+}
+
+.animate-kenburns-1 {
+  animation: kenburns-pan-1 18s ease-in-out infinite;
+}
+
+.animate-kenburns-2 {
+  animation: kenburns-pan-2 22s ease-in-out infinite;
+}
+
+.animate-kenburns-3 {
+  animation: kenburns-pan-3 20s ease-in-out infinite;
+}
+
+/* Soft glowing border frame animation */
+@keyframes glow-frame-pulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(244, 114, 182, 0.22), 0 0 32px rgba(247, 208, 112, 0.16), inset 0 0 14px rgba(244, 114, 182, 0.12);
+    border-color: rgba(247, 208, 112, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(244, 114, 182, 0.42), 0 0 48px rgba(247, 208, 112, 0.3), inset 0 0 22px rgba(244, 114, 182, 0.22);
+    border-color: rgba(247, 208, 112, 0.65);
+  }
+}
+
+.animate-frame-glow {
+  animation: glow-frame-pulse 4.5s ease-in-out infinite;
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
